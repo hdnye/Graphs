@@ -110,37 +110,39 @@ class Graph:
         """
         # Create an empty queue & add a PATH_TO starting vertex
         # i.e. add array[1] to the queue
-        queue = []
+        queue = deque()
         queue.append(starting_vertex)
         # create visited set
-        visited = set()
+        visited = set()  # check if current vortex is the target vortex
+        if starting_vertex is destination_vertex:
+            # found vertex & path to it
+            # return PATH
+            return queue
         # while queue is not empty:
-        while len(queue) >0:
+        while len(queue) > 0:
             # dequeue the current PATH from the queue
-            path = queue.pop()
+            path = queue.popleft()
             # to get cur_vert to analyze from the PATH
             # use the vertex at the end of the path arr
             destination_vertex = path[-1]
-            # check if current vortex is the target vortex
-            if path is destination_vertex:
-                # found vertex & path to it
-                return path
-                    # return PATH
-                # for each neigh of cur_vert
+            # if vertex not visited:
+            # add vertex to visited
+            if path not in visited:
+                print(path)
+                visited.add(path)
+            # for each neigh of cur_vert
             elif destination_vertex not in visited:
                 for neighbor in self.get_neighbors(destination_vertex):
                     # add path to the neigh to the queue
                     # add neigh to new path
-                    new_path = set(path)
+                    new_path = list(path)
                     # Copy the current path
-                    new_path.add(neighbor)
+                    new_path.append(neighbor)
                     # add the whole path to queue
                     queue.append(new_path)
-                    # if vertex not visited:
-                    # add vertex to visited
-                    if path not in visited:
-                        print(path)
-                        visited.add(path)                        
+                    # return path if neighbor == dest_vertex
+                    if neighbor is destination_vertex:
+                        return new_path                  
         
 
     def dfs(self, starting_vertex, destination_vertex):
