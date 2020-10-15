@@ -110,50 +110,64 @@ class Graph:
         """
         # Create an empty queue & add a PATH_TO starting vertex
         # i.e. add array[1] to the queue
-        queue = deque()
-        queue.append(starting_vertex)
+        queue = deque({starting_vertex}) 
+        path = [starting_vertex]      
         # create visited set
-        visited = set()  
+        visited = set()
         # check if current vortex is the target vortex
         if starting_vertex is destination_vertex:
-            # found vertex & path to it
-            # return PATH
+            # found vertex & path to it            
             return queue
         # while queue is not empty:
         while len(queue) > 0:
             # dequeue the current PATH from the queue
-            cur_vert = queue.popleft()
-            path = queue.append(destination_vertex)
-            # to get cur_vert to analyze from the PATH
-            # use the vertex at the end of the path arr
-            # destination_vertex = path[-1]
+            cur_vert = queue.popleft()  
+               
+            destination_vertex = path[-1]
             # if vertex not visited:
-            # add vertex to visited
-            if cur_vert not in visited:
-                print(cur_vert)
-                visited.add(cur_vert)
-            # for each neigh of cur_vert
-            elif destination_vertex not in visited:
-                for neighbor in self.get_neighbors(destination_vertex):
+            # add vertex to visited           
+            # for each neigh of cur_vert            
+            for neighbor in self.get_neighbors(destination_vertex):
+                if cur_vert not in visited:
+                    visited.add(cur_vert)
                     # add path to the neigh to the queue
                     # add neigh to new path
-                    new_path = list(path)
+                new_path = path.copy()
                     # Copy the current path
-                    new_path.extend(neighbor)
+                new_path.append(neighbor)
                     # add the whole path to queue
-                    queue.append(new_path)
+                queue.append(new_path)
                     # return path if neighbor == dest_vertex
-                    if neighbor is destination_vertex:
-                        return new_path                  
+                if neighbor is destination_vertex:
+                    return new_path                  
+        return queue    
         
-
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        stack = deque()
+        stack.append(starting_vertex)
+        visited = set()
+
+        if starting_vertex is destination_vertex:
+            return stack
+        
+        while stack is not None:
+            cur_vertext = stack.popleft()
+            path = stack.append(destination_vertex)
+            destination_vertex = path[-1]
+            if cur_vertext not in visited:
+                visited.add(cur_vertext)
+            elif destination_vertex not in visited:
+                for neighbor in self.get_neighbors(destination_vertex):
+                    new_path = list(path)
+                    new_path.append(neighbor)
+                    stack.append(new_path)
+                if neighbor is destination_vertex:
+                    return new_path
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
