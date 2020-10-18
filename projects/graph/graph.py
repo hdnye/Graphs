@@ -56,7 +56,7 @@ class Graph:
             # if vertex not in visited: 
             if cur_vertex not in visited:                 
                 # print it
-                print(cur_vertex)
+                # print(cur_vertex)
 
                 # add the vertex to our visited set
                 visited.add(cur_vertex)
@@ -83,7 +83,7 @@ class Graph:
             # if vertex not in visited:
             if cur_vertex not in visited:
                 # print it
-                print(cur_vertex)
+                # print(cur_vertex)
 
                 # add the vertex to our visited set
                 visited.add(cur_vertex)
