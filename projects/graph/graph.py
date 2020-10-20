@@ -125,19 +125,19 @@ class Graph:
             # add vertex to visited
             if cur_vert not in visited:
                 visited.add(cur_vert)
-            if cur_vert is destination_vertex:
-                return cur_path             
-            # for each neigh of cur_vert            
-            for neighbor in self.get_neighbors(cur_vert):                              
-                # Copy the current path    
-                new_path = list(cur_path)
-                # add neigh to new path          
-                new_path.append(neighbor)
-                # add the whole path to queue
-                queue.append(new_path)
-                # return path if neighbor == dest_vertex
-                if neighbor is destination_vertex:
-                    return new_path                  
+                if cur_vert is destination_vertex:
+                    return cur_path             
+                # for each neigh of cur_vert            
+                for neighbor in self.get_neighbors(cur_vert):                              
+                    # Copy the current path    
+                    new_path = list(cur_path)
+                    # add neigh to new path          
+                    new_path.append(neighbor)
+                    # add the whole path to queue
+                    queue.append(new_path)
+                    # return path if neighbor == dest_vertex
+                    if neighbor is destination_vertex:
+                        return new_path                  
         return None
         
     def dfs(self, starting_vertex, destination_vertex):
@@ -162,19 +162,19 @@ class Graph:
             # add vertex to visited
             if cur_vert not in visited:
                 visited.add(cur_vert)
-            if cur_vert is destination_vertex:
-                return cur_path
-            # for each neigh of cur_vert
-            for neighbor in self.get_neighbors(cur_vert):
-                # Copy the current path
-                new_path = list(cur_path)
-                # add neigh to new path
-                new_path.append(neighbor)
-                # add the whole path to queue
-                stack.append(new_path)
-                # return path if neighbor == dest_vertex
-                if neighbor is destination_vertex:
-                    return new_path
+                if cur_vert is destination_vertex:
+                    return cur_path
+                # for each neigh of cur_vert
+                for neighbor in self.get_neighbors(cur_vert):
+                    # Copy the current path
+                    new_path = list(cur_path)
+                    # add neigh to new path
+                    new_path.append(neighbor)
+                    # add the whole path to queue
+                    stack.append(new_path)
+                    # return path if neighbor == dest_vertex
+                    if neighbor is destination_vertex:
+                        return new_path
         return None
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
