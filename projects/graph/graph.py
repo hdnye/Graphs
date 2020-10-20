@@ -44,7 +44,8 @@ class Graph:
         # Need to track cur_node & next_node to add to Queue
         # create empty queue & add starting vertex, will keep track of all next_to_visit_vertices
         queue = []
-        queue.append(starting_vertex_id)
+        queue.append(starting_vertex_id)        
+
         # Create an empty set to keep track of all visited vertices
         visited = set()
 
@@ -56,8 +57,7 @@ class Graph:
             # if vertex not in visited: 
             if cur_vertex not in visited:                 
                 # print it
-                print(cur_vertex)
-
+                # print(cur_vertex)
                 # add the vertex to our visited set
                 visited.add(cur_vertex)
                 # add all neighbors to the queue
@@ -83,8 +83,7 @@ class Graph:
             # if vertex not in visited:
             if cur_vertex not in visited:
                 # print it
-                print(cur_vertex)
-
+                # print(cur_vertex)
                 # add the vertex to our visited set
                 visited.add(cur_vertex)
                 # add all neighbors to the queue
@@ -110,8 +109,7 @@ class Graph:
         """
         # Create an empty queue & add a PATH_TO starting vertex
         # i.e. add array[1] to the queue
-        queue = deque({starting_vertex}) 
-        path = [starting_vertex]      
+        queue = [ [starting_vertex] ]
         # create visited set
         visited = set()
         # check if current vortex is the target vortex
@@ -121,26 +119,26 @@ class Graph:
         # while queue is not empty:
         while len(queue) > 0:
             # dequeue the current PATH from the queue
-            cur_vert = queue.popleft()  
-               
-            destination_vertex = path[-1]
+            cur_path = queue.pop(0)    
+            cur_vert = cur_path[-1]
             # if vertex not visited:
-            # add vertex to visited           
+            # add vertex to visited
+            if cur_vert not in visited:
+                visited.add(cur_vert)
+            if cur_vert is destination_vertex:
+                return cur_path             
             # for each neigh of cur_vert            
-            for neighbor in self.get_neighbors(destination_vertex):
-                if cur_vert not in visited:
-                    visited.add(cur_vert)
-                    # add path to the neigh to the queue
-                    # add neigh to new path
-                new_path = path.copy()
-                    # Copy the current path
+            for neighbor in self.get_neighbors(cur_vert):                              
+                # Copy the current path    
+                new_path = list(cur_path)
+                # add neigh to new path          
                 new_path.append(neighbor)
-                    # add the whole path to queue
+                # add the whole path to queue
                 queue.append(new_path)
-                    # return path if neighbor == dest_vertex
+                # return path if neighbor == dest_vertex
                 if neighbor is destination_vertex:
                     return new_path                  
-        return queue    
+        return None
         
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -148,26 +146,36 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        stack = deque()
-        stack.append(starting_vertex)
+        stack = [ [starting_vertex] ]
+        # create visited set
         visited = set()
-
+        # check if current vortex is the target vortex
         if starting_vertex is destination_vertex:
+            # found vertex & path to it
             return stack
-        
-        while stack is not None:
-            cur_vertext = stack.popleft()
-            path = stack.append(destination_vertex)
-            destination_vertex = path[-1]
-            if cur_vertext not in visited:
-                visited.add(cur_vertext)
-            elif destination_vertex not in visited:
-                for neighbor in self.get_neighbors(destination_vertex):
-                    new_path = list(path)
-                    new_path.append(neighbor)
-                    stack.append(new_path)
+        # while queue is not empty:
+        while len(stack) > 0:
+            # dequeue the current PATH from the queue
+            cur_path = stack.pop(0)
+            cur_vert = cur_path[-1]
+            # if vertex not visited:
+            # add vertex to visited
+            if cur_vert not in visited:
+                visited.add(cur_vert)
+            if cur_vert is destination_vertex:
+                return cur_path
+            # for each neigh of cur_vert
+            for neighbor in self.get_neighbors(cur_vert):
+                # Copy the current path
+                new_path = list(cur_path)
+                # add neigh to new path
+                new_path.append(neighbor)
+                # add the whole path to queue
+                stack.append(new_path)
+                # return path if neighbor == dest_vertex
                 if neighbor is destination_vertex:
                     return new_path
+        return None
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
