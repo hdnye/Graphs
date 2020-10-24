@@ -10,11 +10,11 @@ world = World()
 
 
 # You may uncomment the smaller graphs for development and testing purposes.
-# map_file = "maps/test_line.txt"
+map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
-map_file = "maps/main_maze.txt"
+# map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -28,6 +28,28 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
+# You may find the commands `player.current_room.id`, `player.current_room.get_exits()` and `player.travel(direction)` useful.
+
+
+def get_path(self, direction):
+    cur_room, path, exits = player.current_room.id, player.travel(direction), player.current_room.get_exits()
+    queue = [[cur_room]]
+    visited = set()
+
+    while len(queue) > 0:
+        for room in room_graph: 
+            path = queue.pop(0)
+            cur_room = path[-1]
+            if cur_room not in visited:
+                visited.add(cur_room)
+            for exits in room_graph[room][1]:
+                new_path = path.copy()
+                new_path.append(exits)
+                queue.append(new_path)
+                if exits is None:
+                    return new_path
+    return None
+
 
 
 

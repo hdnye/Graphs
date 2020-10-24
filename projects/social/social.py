@@ -13,15 +13,18 @@ class SocialGraph:
     def add_friendship(self, user_id, friend_id):
         """
         Creates a bi-directional friendship
+        return if the friendship has been added successfully
         """
         if user_id == friend_id:
             print("WARNING: You cannot be friends with yourself")
+            return False
         elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
             print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
-
+            return True
     def add_user(self, name):
         """
         Create a new user with a sequential integer ID
@@ -53,6 +56,7 @@ class SocialGraph:
         # Create friendships:            
             # generate all possible friendship combinations, then
             # num_users * avg_friendships // 2 to generate the average of 2 friends per user
+            # this produces O(n²) yikes
         possible_friendships = []
         for user_id in self.users:
             for friend_id in range(user_id + 1, self.last_id + 1):
@@ -64,6 +68,32 @@ class SocialGraph:
         for i in range(num_users * avg_friendships // 2):
             friendship = possible_friendships[i]
             self.add_friendship(friendship[0], friendship[1])
+
+    def populate_graph_linear(self, num_users, avg_friendships):
+        # corrects time complexity & randomization from above alg
+        # Reset graph
+        self.last_id = 0
+        self.users = {}
+        self.friendships = {}
+        # add users
+        for i in range(0, num_users):
+            self.add_user(f'user {i}')
+        # add friendships
+        # radomnly sample friendships until total friendships met
+        total_friendships = num_users * avg_friendships
+        generated_friendships = 0
+        collisions = 0
+        while generated_friendships < total_friendships:
+            # choose 2 random uers. randint() takes 2 parameters
+            user_id = random.randint(1 , self.last_id)
+            friend_id = random.randint(1, self.last_id)
+            # uses the above f() to prevent redundancies
+            if self.add_friendship(user_id, friend_id):
+                generated_friendships += 2
+            else:
+                collisions += 1
+        print(f'COLLISIONS: {collisions}')
+
 
     def get_all_social_paths(self, user_id):
         """
@@ -97,6 +127,7 @@ class SocialGraph:
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
+    sg.populate_graph_linear(10, 2)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
