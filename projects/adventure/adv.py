@@ -30,26 +30,35 @@ player = Player(world.starting_room)
 traversal_path = []
 # You may find the commands `player.current_room.id`, `player.current_room.get_exits()` and `player.travel(direction)` useful.
 
+# find every exit
+# be able to backtrack from dead ends 
+# find shortest path 
 
+
+
+
+'''
+first pass solution
 def get_path(self, direction):
     cur_room, path, exits = player.current_room.id, player.travel(direction), player.current_room.get_exits()
-    queue = [[cur_room]]
+    # queue = [[cur_room]]
     visited = set()
 
     while len(queue) > 0:
         for room in room_graph: 
-            path = queue.pop(0)
+            path = traversal_path.pop(0)
+            print(f'Path: {path}')
             cur_room = path[-1]
             if cur_room not in visited:
                 visited.add(cur_room)
             for exits in room_graph[room][1]:
                 new_path = path.copy()
                 new_path.append(exits)
-                queue.append(new_path)
+                traversal_path.append(new_path)
                 if exits is None:
                     return new_path
     return None
-
+'''
 
 
 
