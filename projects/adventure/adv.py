@@ -10,11 +10,11 @@ world = World()
 
 
 # You may uncomment the smaller graphs for development and testing purposes.
-# map_file = "maps/test_line.txt"
+map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
-map_file = "maps/main_maze.txt"
+# map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -28,6 +28,49 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
+# You may find the commands `player.current_room.id`, `player.current_room.get_exits()` and `player.travel(direction)` useful.
+
+# find every exit
+# be able to backtrack from dead ends 
+# find shortest path 
+# DFT to find all paths
+def find_all_paths(room_graph, row, col):
+    room_graph.update(row, col) 
+    
+    # check base case if no exit
+    if room_graph[row][col] != exit:
+        return False
+    if room_graph[row][col] not in visited_rooms:
+        visited_rooms.add([row][col])
+    if room_graph.get_exits[row][col] == True:
+        path = room_graph.update(row, col)
+        
+# BFS to find shortest path
+
+
+
+'''
+first pass solution
+def get_path(self, direction):
+    cur_room, path, exits = player.current_room.id, player.travel(direction), player.current_room.get_exits()
+    # queue = [[cur_room]]
+    visited = set()
+
+    while len(queue) > 0:
+        for room in room_graph: 
+            path = traversal_path.pop(0)
+            print(f'Path: {path}')
+            cur_room = path[-1]
+            if cur_room not in visited:
+                visited.add(cur_room)
+            for exits in room_graph[room][1]:
+                new_path = path.copy()
+                new_path.append(exits)
+                traversal_path.append(new_path)
+                if exits is None:
+                    return new_path
+    return None
+'''
 
 
 
