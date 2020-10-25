@@ -10,7 +10,7 @@ world = World()
 
 
 # You may uncomment the smaller graphs for development and testing purposes.
-map_file = "maps/test_line.txt"
+# map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
@@ -29,27 +29,37 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 # You may find the commands `player.current_room.id`, `player.current_room.get_exits()` and `player.travel(direction)` useful.
+backtrack = []
+reverse = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
+visited = set()
 
+while len(room_graph) > 0:
+    next_room = None
+    # find exits
+    for exit in player.current_room.get_exits():
+        # set exit as next room if not in visited
+        if player.current_room.get_room_in_direction(exit) not in visited:
+            next_room = exit
+        
+    if next_room != None: 
+        traversal_path.append(next_room)
+        # backtrack if no exit but room != None
+        backtrack.append(reverse[next_room])
+        # move player forward & add to visited
+        player.travel(next_room)
+        visited.add(player.current_room)
+    # if next_room is none
+    else: 
+        next_room = backtrack.pop(0)
+        traversal_path.append(next_room)
+        # move player
+        player.travel(next_room)
+
+'''
 # find every exit
 # be able to backtrack from dead ends 
 # find shortest path 
-# DFT to find all paths
-def find_all_paths(room_graph, row, col):
-    room_graph.update(row, col) 
-    
-    # check base case if no exit
-    if room_graph[row][col] != exit:
-        return False
-    if room_graph[row][col] not in visited_rooms:
-        visited_rooms.add([row][col])
-    if room_graph.get_exits[row][col] == True:
-        path = room_graph.update(row, col)
-        
-# BFS to find shortest path
-
-
-
-'''
+reverse = [ player.current_room: {d for d in room_graph if "'?'" else None}]
 first pass solution
 def get_path(self, direction):
     cur_room, path, exits = player.current_room.id, player.travel(direction), player.current_room.get_exits()
@@ -71,6 +81,7 @@ def get_path(self, direction):
                     return new_path
     return None
 '''
+
 
 
 
