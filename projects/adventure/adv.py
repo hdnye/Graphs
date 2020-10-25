@@ -13,7 +13,7 @@ world = World()
 # map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
-# map_file = "maps/test_loop_fork.txt"
+map_file = "maps/test_loop_fork.txt"
 # map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
@@ -33,7 +33,7 @@ backtrack = []
 reverse = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
 visited = set()
 
-while len(room_graph) > 0:
+while len(visited) < len(room_graph):
     next_room = None
     # find exits
     for exit in player.current_room.get_exits():
