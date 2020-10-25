@@ -33,7 +33,19 @@ traversal_path = []
 # find every exit
 # be able to backtrack from dead ends 
 # find shortest path 
-
+# DFT to find all paths
+def find_all_paths(room_graph, row, col):
+    room_graph.update(row, col) 
+    
+    # check base case if no exit
+    if room_graph[row][col] != exit:
+        return False
+    if room_graph[row][col] not in visited_rooms:
+        visited_rooms.add([row][col])
+    if room_graph.get_exits[row][col] == True:
+        path = room_graph.update(row, col)
+        
+# BFS to find shortest path
 
 
 
