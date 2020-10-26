@@ -13,8 +13,8 @@ world = World()
 # map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
-map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
+# map_file = "maps/test_loop_fork.txt"
+map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -33,13 +33,15 @@ backtrack = []
 reverse = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
 visited = set()
 
-while len(visited) < len(room_graph):
+while len(visited) < len(world.rooms):
     next_room = None
     # find exits
     for exit in player.current_room.get_exits():
         # set exit as next room if not in visited
         if player.current_room.get_room_in_direction(exit) not in visited:
             next_room = exit
+            # if multiple exits in 1 room 
+            break
         
     if next_room != None: 
         traversal_path.append(next_room)
@@ -50,7 +52,7 @@ while len(visited) < len(room_graph):
         visited.add(player.current_room)
     # if next_room is none
     else: 
-        next_room = backtrack.pop(0)
+        next_room = backtrack.pop()
         traversal_path.append(next_room)
         # move player
         player.travel(next_room)
