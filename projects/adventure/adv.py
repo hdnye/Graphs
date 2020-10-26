@@ -40,7 +40,7 @@ while len(visited) < len(world.rooms):
         # set exit as next room if not in visited
         if player.current_room.get_room_in_direction(exit) not in visited:
             next_room = exit
-            # if multiple exits in 1 room 
+            # if multiple exits in 1 room, will go through 1st not in visited
             break
         
     if next_room != None: 
@@ -61,11 +61,11 @@ while len(visited) < len(world.rooms):
 # find every exit
 # be able to backtrack from dead ends 
 # find shortest path 
-reverse = [ player.current_room: {d for d in room_graph if "'?'" else None}]
-first pass solution
+path = [ player.current_room: {d for d in room_graph if "'?'" else None}]
+first guess
 def get_path(self, direction):
     cur_room, path, exits = player.current_room.id, player.travel(direction), player.current_room.get_exits()
-    # queue = [[cur_room]]
+    queue = [[cur_room]]
     visited = set()
 
     while len(queue) > 0:
